@@ -1,7 +1,7 @@
 package hac.dao;
 
 /**
- * this is our data aka the model
+ * this is our data aka the model (later replaced by a database)
  */
 public class Book {
 

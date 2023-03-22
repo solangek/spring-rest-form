@@ -8,7 +8,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
 
 /*
- * a REST CONTROLLER with the @RestController annotation : returns JSON data
+ * a REST CONTROLLER with the @RestController annotation : returns JSON data.
+ * Based on PathVariable, RequestMapping, GetMapping, PostMapping, PutMapping, DeleteMapping annotations
+ *
  *  To see this example, Visit the pages:
  * http://localhost:8080/api/42
  * http://localhost:8080/api/author/someone/year/2000
