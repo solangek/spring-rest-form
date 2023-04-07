@@ -2,10 +2,18 @@ package hac.restapi;
 
 import hac.dao.Book;
 import hac.dao.BookRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /*
  * a REST CONTROLLER with the @RestController annotation : returns JSON data.
@@ -21,6 +29,9 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api")
 public class SimpleBookRestController {
+
+    private static final Logger logger = LogManager.getLogger(SimpleBookRestController.class);
+
 
     /*
     a simple GET request, check out:
@@ -41,12 +52,16 @@ public class SimpleBookRestController {
     @GetMapping(value = "/author/{author}/year/{year}")
     public ArrayList<Book> getBook(@PathVariable final String author, @PathVariable final String year) {
         ArrayList<Book> res =  BookRepository.findBookByAuthorAndYear(author, year);
+        logger.info("getBook: " + res);
         return res;
     }
 
     @DeleteMapping(value = "/{id}")
-    public void delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
         // delete code
+
+        // return a response entity: a class that encapsulates the HTTP response
+        return ResponseEntity.ok("Book deleted");
     }
 
     @PutMapping(value = "/{id}")
@@ -58,6 +73,14 @@ public class SimpleBookRestController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
     }
 
-
+    /** a special handler for MethodArgumentTypeMismatchException such as /api/author/someone/year/2000a,
+     * see https://www.baeldung.com/exception-handling-for-rest-with-spring
+     * @param ex
+     * @return
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<String> handleAllExceptions(Exception ex) {
+        return ResponseEntity.badRequest().body("Invalid request: " + ex.getMessage());
+    }
 
 }

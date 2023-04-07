@@ -28,7 +28,7 @@ public class BookRepository {
 
         ArrayList<Book> list = new  ArrayList<Book>();
         list.add(new Book(new Long(123), "Random Author1", "Random title1"));
-        list.add(new Book(new Long(123), "Random Author2", "Random title2"));
+        list.add(new Book(new Long(234), "Random Author2", "Random title2"));
         return list;
     }
 }

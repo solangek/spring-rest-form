@@ -6,55 +6,33 @@
 </head>
 <body>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
+    document.addEventListener("DOMContentLoaded", () => {
         // creating a LISTENER for the form submission EVENT:
         // we prevent the default behavior of form submit button and create
         // an ajax call to send JSON data that will be converted to
         // a LoginForm object in Java
-        document.getElementById("theform").addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            data = { "username": document.getElementById("username").value,
-                "password": document.getElementById("password").value}
-
-            fetch(this.action, { // the action=".." in the <form>
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-                .then(response => response.json())
-                .then(function(data)  {
-                    document.getElementById("answer1").innerHTML = data;
-                });
+        document.getElementById("theform").addEventListener("submit", (event) => {
+            event.preventDefault();
+            const { value: username } = document.getElementById("username");
+            const { value: password } = document.getElementById("password");
+            fetch(event.target.action, {
+                method: "POST",
+                body: JSON.stringify({ username, password }),
+                headers: { "Content-Type": "application/json" },
+            }).then((response) => (document.getElementById("answer1").innerHTML = response.json()));
         });
-
-
-        document.getElementById("request1").addEventListener("click", function (e) {
-            e.preventDefault();
-
-            data = { "username": document.getElementById("username").value,
-                "password": document.getElementById("password").value}
-
+        document.getElementById("request1").addEventListener("click", (event) => {
+            event.preventDefault();
+            const { value: username } = document.getElementById("username");
+            const { value: password } = document.getElementById("password");
             fetch("/form/response", {
-                method: 'POST',
-                body: JSON.stringify(data),
-                headers: {
-                    'Content-Type': 'application/json'
-                    // 'Content-Type': 'application/x-www-form-urlencoded',
-                }
-            })
-
-                .then(response => response.json())
-                .then(function(data)  {
-                    document.getElementById("answer2").innerHTML = data.text;
-                });
+                method: "POST",
+                body: JSON.stringify({ username, password }),
+                headers: { "Content-Type": "application/json" },
+            }).then(({ text }) => (document.getElementById("answer2").innerHTML = text));
         });
     });
+
 </script>
 
 <h1>Book REST API example</h1>
