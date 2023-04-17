@@ -46,6 +46,12 @@ public class SimpleBookRestController {
         return b;
     }
 
+    @PostMapping(value = "/")
+    public ResponseEntity<Book> create(@RequestBody final Book bk) {
+        BookRepository.addBook(bk);
+        return ResponseEntity.ok(bk);
+    }
+
     /* a multiple param URL that returns a JSON array
     * check out: http://localhost:8080/api/author/someone/year/2000
      */
@@ -57,11 +63,11 @@ public class SimpleBookRestController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") final Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") final Long id) {
         // delete code
 
         // return a response entity: a class that encapsulates the HTTP response
-        return ResponseEntity.ok("Book deleted");
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}")

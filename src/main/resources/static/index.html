@@ -19,7 +19,11 @@
                 method: "POST",
                 body: JSON.stringify({ username, password }),
                 headers: { "Content-Type": "application/json" },
-            }).then((response) => (document.getElementById("answer1").innerHTML = response.json()));
+            }).then(
+                (response) => response.json()
+            ).then(
+                (data) => (document.getElementById("answer1").innerHTML = data)
+            );
         });
         document.getElementById("request1").addEventListener("click", (event) => {
             event.preventDefault();
@@ -29,7 +33,11 @@
                 method: "POST",
                 body: JSON.stringify({ username, password }),
                 headers: { "Content-Type": "application/json" },
-            }).then(({ text }) => (document.getElementById("answer2").innerHTML = text));
+            }).then(
+                (response) => response.json()
+            ).then(
+                ({ text }) => (document.getElementById("answer2").innerHTML = text)
+            );
         });
     });
 
