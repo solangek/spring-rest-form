@@ -1,9 +1,11 @@
 package hac.dao;
 
+import java.io.Serializable;
+
 /**
  * this is our data aka the model (later replaced by a database)
  */
-public class Book {
+public class Book implements Serializable {
 
     private Long id;
     private String author;

@@ -1,5 +1,9 @@
 package hac.form;
 
+/**
+ * this is our data aka the model (later replaced by a database)
+ * Note that it matches the JSON data sent by the client
+ */
 public class LoginFormData {
     private String username;
     private String password;

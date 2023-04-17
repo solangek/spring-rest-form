@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class FormController {
 
     /** GET /form/requestmap
-     a GET controller that exract all request paramaters as a Map of (key,value)
+     a GET controller that extract all request paramaters as a Map of (key,value)
      can be used in regular submit of form
      try for example: http://localhost:8080/form/requestmap?a=10&message=hello
      *

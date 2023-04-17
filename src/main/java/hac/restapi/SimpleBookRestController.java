@@ -33,6 +33,10 @@ public class SimpleBookRestController {
     private static final Logger logger = LogManager.getLogger(SimpleBookRestController.class);
 
 
+    @GetMapping(value = "")
+    public ArrayList<Book> getRoot() {
+        return BookRepository.getAllBooks();
+    }
     /*
     a simple GET request, check out:
     http://localhost:8080/api/42 -> returns some JSON book object
@@ -46,7 +50,7 @@ public class SimpleBookRestController {
         return b;
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "")
     public ResponseEntity<Book> create(@RequestBody final Book bk) {
         BookRepository.addBook(bk);
         return ResponseEntity.ok(bk);

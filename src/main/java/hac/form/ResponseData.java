@@ -1,5 +1,8 @@
 package hac.form;
 
+/**
+ * we define a class that will be used to transfer specific responses from the server to the client
+ */
 public class ResponseData {
 
     private String text;

@@ -33,6 +33,10 @@ public class BookRepository {
         return b;
     }
 
+    public  static ArrayList<Book> getAllBooks() {
+        return list;
+    }
+
     public static ArrayList<Book> findBookByAuthorAndYear(String author, String year) {
         // this code is only for building a random response
         // in reality it should search some database/datastructure
