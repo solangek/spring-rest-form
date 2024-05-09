@@ -16,7 +16,7 @@ public class FormController {
      can be used in regular submit of form
      try for example: http://localhost:8080/form/requestmap?a=10&message=hello
      *
-     * @param values
+     * @param values a map of all request parameters as key,value pairs
      * @return an empty HTTP response code 200
      */
     @GetMapping("/requestmap")
@@ -28,12 +28,12 @@ public class FormController {
 
     /** POST /form/request
      *  a POST conntroller that extract an object from the request (must be passed as JSON by client)
-     * @param loginForm
+     * @param loginForm a JSON object that will be deserialized from the request body
      * @return an empty HTTP response code 200
      */
     @PostMapping(value = "/request")
     public ResponseEntity postController(@RequestBody LoginFormData loginForm) {
-        System.out.println("POST received - serializing LoginForm: " + loginForm.getPassword() + " " + loginForm.getUsername());
+        System.out.println("POST received - serializing LoginForm: " + loginForm.toString());
         // authenticate(loginForm);
         // ResponseEntity is a Spring class to manipulate HTTP responses
         // see https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/http/ResponseEntity.html
@@ -43,7 +43,7 @@ public class FormController {
     /** GET /form/request
      a GET controller that extract an object from the request (must be passed as JSON by client)
      *
-     * @param loginForm
+     * @param loginForm a JSON object that will be deserialized from the request body
      * @return an empty HTTP response code 200
      */
     @GetMapping(value = "/request")
@@ -55,7 +55,7 @@ public class FormController {
 
     /**
      * POST /form/response
-     * @param loginForm
+     * @param loginForm a JSON object that will be deserialized from the request body
      * @return a JSON object (because of the @ResponseBody annotation) using the class ResponseTransfer
      */
     @PostMapping("/response")
@@ -67,7 +67,7 @@ public class FormController {
 
     /** POST /form/content
      *  you can also specify the type of media returned - default is JSON with  @ResponseBody annotation
-     * @param loginForm
+     * @param loginForm a JSON object that will be deserialized from the request body
      * @return a JSON object (because of the @ResponseBody annotation + produces =) using the class ResponseTransfer
      */
     @PostMapping(value = "/content", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -79,7 +79,7 @@ public class FormController {
 
     /** POST /form/content returning XML
      * because we specify the type of media returned - default is JSON with  @ResponseBody annotation
-     * @param loginFormData
+     * @param loginFormData a JSON object that will be deserialized from the request body
      * @return XML content
      */
     @PostMapping(value = "/content", produces = MediaType.APPLICATION_XML_VALUE)

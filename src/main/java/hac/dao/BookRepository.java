@@ -8,7 +8,7 @@ public class BookRepository {
     /*** our dummy database access ****/
 
     // declare and initialize with 3 books
-    private static ArrayList<Book> list = new ArrayList<Book>(Arrays.asList(
+    private static ArrayList<Book> list = new ArrayList<>(Arrays.asList(
             new Book(1L, "J.K. Rowling", "Harry Potter and the Philosopher's Stone (1997)"),
             new Book(2L, "J.K. Rowling", "Harry Potter and the Chamber of Secrets (1998)"),
             new Book(42L, "Douglas Adamas", "Hitchhiker's guide to the galaxy (2000)"),
@@ -29,7 +29,15 @@ public class BookRepository {
     }
 
     public static Book updateBook(Book b) {
-        // some code to update an existing book in our database
+        // find and update a book in our database
+        for (Book book : list) {
+            if (book.getId().equals(b.getId())) {
+                book.setAuthor(b.getAuthor());
+                book.setTitle(b.getTitle());
+                break;
+            }
+        }
+
         return b;
     }
 
@@ -42,7 +50,7 @@ public class BookRepository {
         // in reality it should search some database/datastructure
 
         // find all books by author and year
-        ArrayList<Book> res = new  ArrayList<Book>();
+        ArrayList<Book> res = new  ArrayList<>();
         for (Book b : list) {
             if (b.getAuthor().equals(author) && b.getTitle().contains(year)) {
                 res.add(b);
@@ -53,8 +61,8 @@ public class BookRepository {
     }
 
     public static void addBook(Book bk) {
-        // some code to add a new book to our database
+        // generate some id to add a new book to our database
+        bk.setId((long) list.size());
         list.add(bk);
-
     }
 }

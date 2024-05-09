@@ -6,14 +6,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /*
  * a REST CONTROLLER with the @RestController annotation : returns JSON data.
@@ -75,18 +71,19 @@ public class SimpleBookRestController {
     }
 
     @PutMapping(value = "/{id}")
-    public void update(@PathVariable("id") final Long id, @RequestBody final Book bk) {
+    public ResponseEntity<HttpStatus> update(@PathVariable("id") final Long id, @RequestBody final Book bk) {
         Book b = BookRepository.findBookById(bk.getId());
-        if (b != null)
+        if (b != null) {
             BookRepository.updateBook(bk);
-        else
+            return  ResponseEntity.ok(HttpStatus.OK);
+        } else
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Book Not Found");
     }
 
-    /** a special handler for MethodArgumentTypeMismatchException such as /api/author/someone/year/2000a,
+    /** a special error handler for MethodArgumentTypeMismatchException such as /api/author/someone/year/2000a,
      * see https://www.baeldung.com/exception-handling-for-rest-with-spring
-     * @param ex
-     * @return
+     * @param ex - the exception
+     * @return a response entity with a bad request
      */
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<String> handleAllExceptions(Exception ex) {
