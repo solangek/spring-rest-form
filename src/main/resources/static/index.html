@@ -47,11 +47,19 @@
                 method: "POST",
                 body: JSON.stringify({ title, author }),
                 headers: { "Content-Type": "application/json" },
+            }).then(response => {
+                if (!response.ok) {
+                    throw new Error("HTTP error, status = " + response.status);
+                }
+                return response;
+
             }).then(
                 (response) => response.json()
             ).then(
                 (data) => (document.getElementById("answer-post").innerHTML = `Book added with id: ${data.id}`)
-            );
+            ).catch((error) => {
+                document.getElementById("answer-post").innerHTML = "Error: " + error.message;
+            });
         });
     });
 
@@ -66,10 +74,12 @@ Try these REST calls with Postman (we are supposed to handle the (JSON) response
     <li><a href="http://localhost:8080/api">Show all database contents</a></li>
 </ol>
 
-<p>A form to add a book with a JSON route:</p>
+<p>An Ajax form to add a book using a REST api:</p>
 <form id="book-form" action="/api" method="post">
-    title: <input type="text" name="title" id="title"><br/><br/>
-    author: <input type="text" name="author" id="author"><br/><br/>
+    <label for="title">Title:</label>
+    <input type="text" id="title"><br/><br/>
+    <label for="author">Author:</label>
+    <input type="text" id="author"><br/><br/>
     <input type="submit">
 </form>
 <div>Answer:<span id="answer-post"></span></div>
@@ -86,8 +96,10 @@ Try these REST calls with Postman (we are supposed to handle the (JSON) response
     The server will convert this JSON object to a LoginForm object and return an OK 200 response.</p>
 <p>Check the IntelliJ output console:</p>
 <form id="user-form" action="/form/request">
-    login: <input type="text" name="username" id="username"><br/><br/>
-    password:<input type="password" name="password" id="password"><br/><br/>
+    <label for="username">username:</label>
+    <input type="text" name="username" id="username"><br/><br/>
+    <label for="password">password:</label>
+    <input type="password" name="password" id="password"><br/><br/>
     <input type="submit" value="send POST to /form/request">
 </form>
 <br/>

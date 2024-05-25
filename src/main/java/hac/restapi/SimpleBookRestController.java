@@ -31,6 +31,7 @@ public class SimpleBookRestController {
 
     @GetMapping(value = "")
     public ArrayList<Book> getRoot() {
+
         return BookRepository.getAllBooks();
     }
     /*
@@ -48,6 +49,7 @@ public class SimpleBookRestController {
 
     @PostMapping(value = "")
     public ResponseEntity<Book> create(@RequestBody final Book bk) {
+        System.out.println("create: " + bk);
         BookRepository.addBook(bk);
         return ResponseEntity.ok(bk);
     }
@@ -72,7 +74,7 @@ public class SimpleBookRestController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable("id") final Long id, @RequestBody final Book bk) {
-        Book b = BookRepository.findBookById(bk.getId());
+        Book b = BookRepository.findBookById(id);
         if (b != null) {
             BookRepository.updateBook(bk);
             return  ResponseEntity.ok(HttpStatus.OK);
@@ -85,7 +87,7 @@ public class SimpleBookRestController {
      * @param ex - the exception
      * @return a response entity with a bad request
      */
-    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, IllegalArgumentException.class})
     public ResponseEntity<String> handleAllExceptions(Exception ex) {
         return ResponseEntity.badRequest().body("Invalid request: " + ex.getMessage());
     }
